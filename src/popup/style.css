@@ -1,0 +1,21 @@
+#addvideo {
+    padding: 8px;
+    margin: 8px auto;
+}
+
+#upnext {
+    padding: 8px;
+}
+
+#upnext td > span {
+    display: block;
+    padding: 8px;
+}
+
+.videotitle {
+    font-weight: bold;
+}
+
+.channel {
+    font-style: italic;
+}

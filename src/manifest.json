@@ -1,0 +1,42 @@
+{
+
+    "manifest_version": 2,
+    "name": "Nebula Watchnext",
+    "version": "1.0",
+
+    "description": "Adds a 'Watch Next' feature to Nebula",
+
+    "icons": {
+      "48": "icons/border-48.png"
+    },
+
+    "content_scripts": [
+      {
+        "matches": ["*://*.nebula.app/*"],
+        "js": ["watchnext.js"]
+      }
+    ],
+    "permissions": [
+      "storage",
+      "*://*.nebula.app/*",
+      "*://api.zype.com/*"
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+          "id": "nebula.watchnext@net.phlaym",
+          "strict_min_version": "42.0"
+        }
+    },
+
+    "page_action": {
+        "browser_style": true,
+        "default_icon": {
+          "19": "icons/page_action_19.png",
+          "38": "button/page_action_38.png"
+        },
+        "default_title": "Watch Next",
+        "default_popup": "popup/watchnext.html",
+        "show_matches": ["*://*.nebula.app/*"]
+      }
+
+  }
