@@ -1,6 +1,41 @@
-#addvideo {
+:root {
+    --main-bg-color: white;
+    --main-fg-color: black;
+    --shadow-color: #2b2b2b;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --main-fg-color: rgb(212, 212, 212);
+        --main-bg-color: rgb(36, 36, 36);
+        --shadow-color: black;
+    }
+}
+
+body {
+    color: var(--main-fg-color);
+    background-color: var(--main-bg-color);
+}
+
+button {
     padding: 8px;
     margin: 8px auto;
+    color: var(--main-fg-color);
+    background-color: var(--main-bg-color);
+    border: 1px solid var(--main-fg-color);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#addvideo:hover {
+    box-shadow: 5px 5px 5px 1px var(--shadow-color);
+    transform: translate(-3px, -3px);
+}
+
+button.delete:hover {
+    background-color: red;
+    color: white;
 }
 
 #upnext {
@@ -18,4 +53,8 @@
 
 .channel {
     font-style: italic;
+}
+
+.thumbnail {
+    max-width: 300px;
 }

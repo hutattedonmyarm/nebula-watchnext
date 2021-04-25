@@ -8,14 +8,27 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+async function removeVideo(index) {
+    console.log('removing video', index);
+    const playlist = await loadWatchNext();
+    playlist.splice(index, 1);
+    await browser.storage.sync.set({playlist});
+    await displayWatchNext();
+}
+
 async function displayWatchNext() {
     const table = document.getElementById(tableId);
     const body = table.querySelector('tbody');
     body.innerHTML = '';
 
     const playlist = await loadWatchNext();
+    if (!playlist.length) {
+        body.innerHTML = '<span class="emptylist">No videos have been added yet</span>';
+    }
+    let index = -1;
     for (const video of playlist) {
         console.log('inserting video', video);
+        index++;
         if (!video) {
             continue;
         }
@@ -23,12 +36,14 @@ async function displayWatchNext() {
         const thumbCell = row.insertCell();
         if (video.thumbnailUrl) {
             const thumb = document.createElement('img');
+            thumb.classList.add('thumbnail')
             thumb.src = video.thumbnailUrl;
             const href = document.createElement('a');
             href.href = video.url;
             href.appendChild(thumb);
             thumbCell.appendChild(href);
         }
+
         let detailCell = row.insertCell();
         const title = document.createElement('span');
         title.innerText = video.title;
@@ -41,6 +56,17 @@ async function displayWatchNext() {
         detailCell.appendChild(title);
         detailCell.appendChild(channel);
         detailCell.appendChild(description);
+
+        const deleteCell = row.insertCell();
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerText = 'X';
+        deleteBtn.classList.add('delete');
+        deleteBtn.dataset.index = index;
+        deleteBtn.onclick = function() {
+            removeVideo(this.dataset.index).then(() => {});
+        }
+        deleteCell.appendChild(deleteBtn);
+
         console.log(thumbCell, detailCell, title, row);
     }
 }
@@ -59,9 +85,21 @@ async function loadWatchNext() {
 }
 
 async function addCurrentVideo() {
+    try {
+        const script = {code: 'location.pathname;'};
+        const result = await browser.tabs.executeScript(script);
+        console.log(result);
+        if (!result[0].startsWith('/videos/')) {
+            return;
+        }
+    } catch (error) {
+        console.warn("Couldn't load url of current page, trying anyways", error);
+    }
+
     const videoInfo = await getVideoTitle();
     if (!videoInfo || !videoInfo.title) {
         console.error('Could not load video info');
+        return;
     }
     await addVideo(videoInfo);
 }
