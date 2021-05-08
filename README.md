@@ -1,4 +1,4 @@
-This Firefox extension adds a "Watch Next" feature to the [Nebula](https://nebula.app) straming service. After finishing a video, the next one in the list is automatically queued.
+This [Firefox extension](https://addons.mozilla.org/en-US/firefox/addon/nebula-watchnext/) adds a "Watch Next" feature to the [Nebula](https://nebula.app) straming service. After finishing a video, the next one in the list is automatically queued.
 
 A page action, that is a button in your address bar, lists your current "Watch Next" list and allows you to add the currently opened video to the list.
 Right clicking on a video from the featured page, your library, or a creator's page allows adding the video to your list too.
