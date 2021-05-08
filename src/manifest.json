@@ -7,7 +7,10 @@
     "description": "__MSG_extensionDescription__",
 
     "icons": {
-      "48": "icons/border-48.png"
+      "16": "icons/page_action.svg",
+      "32": "icons/page_action.svg",
+      "48": "icons/page_action.svg",
+      "96": "icons/page_action.svg"
     },
 
     "content_scripts": [
@@ -19,7 +22,8 @@
     "permissions": [
       "storage",
       "*://*.nebula.app/*",
-      "*://api.zype.com/*"
+      "*://api.zype.com/*",
+      "contextMenus"
     ],
     "browser_specific_settings": {
         "gecko": {
@@ -31,14 +35,16 @@
     "page_action": {
         "browser_style": true,
         "default_icon": {
-          "19": "icons/page_action_19.png",
-          "38": "button/page_action_38.png"
+          "19": "icons/page_action.svg",
+          "38": "button/page_action.svg"
         },
         "default_title": "Watch Next",
         "default_popup": "popup/watchnext.html",
         "show_matches": ["*://*.nebula.app/*"]
       },
 
-      "default_locale": "en"
-
+      "default_locale": "en",
+      "background": {
+        "scripts": ["context-menu.js"]
+      }
   }

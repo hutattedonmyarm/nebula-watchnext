@@ -15,6 +15,10 @@
       "message": "Add this video",
       "description": "Button label to add the current video"
     },
+    "addThisVideoContextMenu": {
+      "message": "Add video to 'Watch Next'",
+      "description": "Context menu label to add the current video"
+    },
     "watchlistEmpty": {
       "message": "No videos have been added yet",
       "description": "Displayed instead of the watchlsit of it is emtpy"
