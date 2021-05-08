@@ -28,7 +28,7 @@
     "browser_specific_settings": {
         "gecko": {
           "id": "nebula.watchnext@net.phlaym",
-          "strict_min_version": "42.0"
+          "strict_min_version": "86.0"
         }
     },
 
