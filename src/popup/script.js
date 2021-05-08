@@ -73,7 +73,7 @@ async function displayWatchNext() {
         channel.innerText = video.channel;
         channel.classList.add('channel');
         const description = document.createElement('span');
-        description.innerText = video.description;
+        description.innerText = video.description || '';
         detailCell.appendChild(title);
         detailCell.appendChild(channel);
         detailCell.appendChild(description);
