@@ -5,17 +5,13 @@
         <script src="script.js"></script>
     </head>
     <body>
-        <button id="addvideo">Add this video</button>
+        <button id="addvideo" disabled>
+            <div class="lds-dual-ring"></div>
+            Loading video info
+        </button>
+        <span class="error hidden" id="errorMessage"></span>
         <table id="upnext">
             <thead>
-                <!--<tr class="headerrow">
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Url
-                    </th>
-                </tr> !-->
             </thead>
             <tbody></tbody>
         </table>

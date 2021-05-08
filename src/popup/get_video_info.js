@@ -1,8 +1,4 @@
-if (window.videoInfo && window.videoInfo.title) {
-    console.log('videoinfo already exists', window.videoInfo, location.href);
-    window.videoInfo;
-} else {
-    console.log('parsing videoinfo from dom', location.href);
+if (!(window.videoInfo && window.videoInfo.title)) {
     let el = document.querySelector('meta[property="og:title"]');
     let title = null;
     if (el) {
@@ -28,14 +24,14 @@ if (window.videoInfo && window.videoInfo.title) {
         category = creatorDivs[1].innerText;
     }
     window.videoInfo = {
-      title: title,
-      updatedAt: null,
-      description: null,
-      duration: 0,
-      thumbnailUrl: null,
-      channel: channel,
-      category: category,
-      url: location.href
+        title: title,
+        updatedAt: null,
+        description: null,
+        duration: 0,
+        thumbnailUrl: null,
+        channel: channel,
+        category: category,
+        url: location.href
     };
-    window.videoInfo;
 }
+window.videoInfo;

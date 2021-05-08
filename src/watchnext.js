@@ -1,12 +1,6 @@
-//console.log('Hello world');
-
-//browser.storage.sync.set({'playlist': [{url: 'https://google.com'}]});
-//const playlist = [{url: 'https://google.com'}];
-//browser.storage.sync.set({playlist}).then(() => {});
 window.videoInfo = null;
 
 window.onmessage = function (message) {
-    console.log(message);
     if (message.origin !== 'https://player.zype.com') {
         return;
     }
@@ -31,7 +25,6 @@ window.onmessage = function (message) {
 }
 
 async function loadVideoDetails() {
-    console.log('loadVideoDetails');
     try {
         const iframe = document.querySelector('iframe.VideoPlayer-iFrame');
         if (!iframe) {
@@ -45,10 +38,8 @@ async function loadVideoDetails() {
             if (srcParts.length > 1) {
                 const accessToken = srcParts[1].split('/')[0];
                 const apiUrl = `https://api.zype.com/videos/${videoId}?access_token=${accessToken}`;
-                console.log('loading data');
                 const r = await fetch(apiUrl);
                 const json = await r.json();
-                console.log(json);
                 const title = json.response.title;
                 const updatedAt = json.response.updated_at;
                 const description = json.response.short_description;
@@ -82,7 +73,6 @@ async function loadVideoDetails() {
                     category: categoryname,
                     url: location.href
                 };
-                console.log('found video info', window.videoInfo);
             } else {
                 console.warn('Seems Nebula has changed the way videos are embedded, cannot find access token');
             }
@@ -95,7 +85,6 @@ async function loadVideoDetails() {
 }
 
 async function loadNextVideo() {
-    console.log('Loading next video');
     let pl
     try {
         pl = await browser.storage.sync.get('playlist');
@@ -105,12 +94,10 @@ async function loadNextVideo() {
     }
 
     const playlist = pl.playlist;
-    console.log('upcoming videos: ', playlist.length);
     if (!playlist.length) {
         return;
     }
     const v = playlist[0];
-    console.log('Loaded next video', v.url);
 
     playlist.shift();
     await browser.storage.sync.set({playlist});

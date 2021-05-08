@@ -3,13 +3,34 @@ const addButtonId = 'addvideo';
 document.addEventListener("DOMContentLoaded", function() {
 
     displayWatchNext().then(() => {});
+    waitUntilMainDocumentIsReady().then(() => {
+        document.getElementById(addButtonId).disabled = false;
+        document.getElementById(addButtonId).innerText = 'Add this video';
+    });
     document.getElementById(addButtonId).onclick = function() {
         addCurrentVideo().then(() => {});
     }
 });
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+async function waitUntilMainDocumentIsReady() {
+    try {
+        const script = {code: 'document.readyState;'};
+        let state = 'unknown';
+        while(state !== 'complete') {
+            const result = await browser.tabs.executeScript(script);
+            state = result[0];
+            await sleep(10);
+        }
+    } catch (error) {
+        console.warn("Couldn't wait for main document to be ready", error);
+    }
+}
+
 async function removeVideo(index) {
-    console.log('removing video', index);
     const playlist = await loadWatchNext();
     playlist.splice(index, 1);
     await browser.storage.sync.set({playlist});
@@ -27,7 +48,6 @@ async function displayWatchNext() {
     }
     let index = -1;
     for (const video of playlist) {
-        console.log('inserting video', video);
         index++;
         if (!video) {
             continue;
@@ -66,8 +86,6 @@ async function displayWatchNext() {
             removeVideo(this.dataset.index).then(() => {});
         }
         deleteCell.appendChild(deleteBtn);
-
-        console.log(thumbCell, detailCell, title, row);
     }
 }
 
@@ -79,7 +97,6 @@ async function loadWatchNext() {
         console.error('Could not load watch next data', error);
         return;
     }
-    console.log('loaded queue', pl);
     const playlist = pl.playlist || [];
     return playlist;
 }
@@ -88,8 +105,10 @@ async function addCurrentVideo() {
     try {
         const script = {code: 'location.pathname;'};
         const result = await browser.tabs.executeScript(script);
-        console.log(result);
         if (!result[0].startsWith('/videos/')) {
+            const message = document.getElementById('errorMessage');
+            message.innerText = 'This does not look like a video!';
+            message.classList.remove('hidden');
             return;
         }
     } catch (error) {
@@ -112,24 +131,15 @@ async function addVideo(videoInfo) {
         console.error('Could not load watch next data', error);
         return;
     }
-    console.log('current queue', pl);
     const playlist = pl.playlist || [];
-    //videoInfo.url = 'https://google.com';
     playlist.push(videoInfo);
     await browser.storage.sync.set({playlist});
     await displayWatchNext();
 }
 
 async function getVideoTitle() {
-    console.log('getvideotitle');
-
     const script = {file: "/popup/get_video_info.js"};
     const result = await browser.tabs.executeScript(script);
-    console.log('executed script result', result);
     return result[0];
 }
-
-function logTabs(tabs) {
-    console.log(tabs)
-  }
 

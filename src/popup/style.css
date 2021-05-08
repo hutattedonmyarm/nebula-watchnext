@@ -1,16 +1,10 @@
 :root {
     --main-bg-color: white;
     --main-fg-color: black;
+    --disabled-bg-color: rgb(167, 167, 167);
+    --disabled-fg-color: rgb(59, 59, 59);
     --shadow-color: #2b2b2b;
-}
-
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --main-fg-color: rgb(212, 212, 212);
-        --main-bg-color: rgb(36, 36, 36);
-        --shadow-color: black;
-    }
+    --error-color: red;
 }
 
 body {
@@ -18,24 +12,42 @@ body {
     background-color: var(--main-bg-color);
 }
 
+@media (prefers-color-scheme: dark) {
+    :root {
+        --main-fg-color: rgb(212, 212, 212);
+        --main-bg-color: rgb(36, 36, 36);
+        --shadow-color: black;
+        --disabled-fg-color: rgb(167, 167, 167);
+        --disabled-bg-color: rgb(59, 59, 59);
+    }
+}
+
 button {
     padding: 8px;
     margin: 8px auto;
-    color: var(--main-fg-color);
-    background-color: var(--main-bg-color);
     border: 1px solid var(--main-fg-color);
     cursor: pointer;
     transition: all 0.2s;
+    color: var(--main-fg-color);
+    background-color: var(--main-bg-color);
+}
+button:disabled {
+    color: var(--disabled-fg-color);
+    background-color: var(--disabled-bg-color);
 }
 
-#addvideo:hover {
+#addvideo:hover:not(:disabled) {
     box-shadow: 5px 5px 5px 1px var(--shadow-color);
     transform: translate(-3px, -3px);
 }
 
 button.delete:hover {
-    background-color: red;
+    background-color: var(--error-color);
     color: white;
+}
+
+#addvideo:disabled {
+    cursor: not-allowed;
 }
 
 #upnext {
@@ -58,3 +70,42 @@ button.delete:hover {
 .thumbnail {
     max-width: 300px;
 }
+
+.error {
+    color: var(--error-color);
+}
+
+.hidden {
+    display: none;
+}
+
+#errorMessage {
+    text-align: center;
+    width: 100%;
+}
+
+
+.lds-dual-ring {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 0.8em;
+    height: 0.8em;
+    margin: 0.1em;
+    border-radius: 50%;
+    border: 0.2em solid var(--main-fg-color);
+    border-color: var(--main-fg-color) transparent var(--main-fg-color) transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
