@@ -1,10 +1,10 @@
 {
 
     "manifest_version": 2,
-    "name": "Nebula Watchnext",
+    "name": "__MSG_extensionName__",
     "version": "1.0",
 
-    "description": "Adds a 'Watch Next' feature to Nebula",
+    "description": "__MSG_extensionDescription__",
 
     "icons": {
       "48": "icons/border-48.png"
@@ -37,6 +37,8 @@
         "default_title": "Watch Next",
         "default_popup": "popup/watchnext.html",
         "show_matches": ["*://*.nebula.app/*"]
-      }
+      },
+
+      "default_locale": "en"
 
   }

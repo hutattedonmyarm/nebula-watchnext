@@ -34,6 +34,7 @@ button {
 button:disabled {
     color: var(--disabled-fg-color);
     background-color: var(--disabled-bg-color);
+    cursor: not-allowed;
 }
 
 #addvideo:hover:not(:disabled) {
@@ -44,10 +45,6 @@ button:disabled {
 button.delete:hover {
     background-color: var(--error-color);
     color: white;
-}
-
-#addvideo:disabled {
-    cursor: not-allowed;
 }
 
 #upnext {
@@ -84,6 +81,9 @@ button.delete:hover {
     width: 100%;
 }
 
+button:not(:disabled) .lds-dual-ring {
+    display: none;
+}
 
 .lds-dual-ring {
     display: inline-block;

@@ -1,0 +1,26 @@
+{
+    "extensionName": {
+      "message": "Nebula Watchnext",
+      "description": "Name of the extension."
+    },
+    "extensionDescription": {
+      "message": "Adds a 'Watch Next' feature to Nebula videos",
+      "description": "Description of the extension."
+    },
+    "loadingVideoInfo": {
+      "message": "Loading video info",
+      "description": "Message while video info is loading"
+    },
+    "addThisVideo": {
+      "message": "Add this video",
+      "description": "Button label to add the current video"
+    },
+    "watchlistEmpty": {
+      "message": "No videos have been added yet",
+      "description": "Displayed instead of the watchlsit of it is emtpy"
+    },
+    "notAVideo": {
+      "message": "This does not look like a video!",
+      "description": "Error message when trying to add something which is not a video"
+    }
+  }

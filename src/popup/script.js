@@ -1,11 +1,11 @@
 const tableId = 'upnext';
 const addButtonId = 'addvideo';
 document.addEventListener("DOMContentLoaded", function() {
-
+    document.getElementById(addButtonId).querySelector('span').innerText = browser.i18n.getMessage('loadingVideoInfo');
     displayWatchNext().then(() => {});
     waitUntilMainDocumentIsReady().then(() => {
         document.getElementById(addButtonId).disabled = false;
-        document.getElementById(addButtonId).innerText = 'Add this video';
+        document.getElementById(addButtonId).querySelector('span').innerText = browser.i18n.getMessage('addThisVideo');
     });
     document.getElementById(addButtonId).onclick = function() {
         addCurrentVideo().then(() => {});
@@ -44,7 +44,8 @@ async function displayWatchNext() {
 
     const playlist = await loadWatchNext();
     if (!playlist.length) {
-        body.innerHTML = '<span class="emptylist">No videos have been added yet</span>';
+        const msg = browser.i18n.getMessage('watchlistEmpty');
+        body.innerHTML = `<span class="emptylist">${msg}</span>`;
     }
     let index = -1;
     for (const video of playlist) {
@@ -107,7 +108,7 @@ async function addCurrentVideo() {
         const result = await browser.tabs.executeScript(script);
         if (!result[0].startsWith('/videos/')) {
             const message = document.getElementById('errorMessage');
-            message.innerText = 'This does not look like a video!';
+            message.innerText = browser.i18n.getMessage('notAVideo');
             message.classList.remove('hidden');
             return;
         }
