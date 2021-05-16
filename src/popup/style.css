@@ -85,6 +85,10 @@ button:not(:disabled) .lds-dual-ring {
     display: none;
 }
 
+.center {
+    margin: 0 auto;
+}
+
 .lds-dual-ring {
     display: inline-block;
     width: 1em;

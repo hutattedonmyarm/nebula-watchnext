@@ -1,28 +1,31 @@
 window.videoInfo = null;
 
 (() => {
-    console.log('Loaded', document.location.host, window.frameElement, window.self !== window.top);
     if (document.location.host === 'player.zype.com') {
-        const script = document.createElement('script');
-        script.setAttribute('type', 'text/javascript');
-        script.textContent = `(() => {
-            const waitForTheo = () => {
-                console.debug('waiting');
-                if (!window.theoplayer)
-                    return;
-                console.debug('ready', window.theoplayer);
-                window.theoplayer.autoplay = true;
-                clearInterval(int);
+        var storageItem = browser.storage.sync.get('autoplay');
+        storageItem.then((res) => {
+            console.log('autoplay option', res);
+            if (res.autoplay !== undefined && res.autoplay === true) {
+                const script = document.createElement('script');
+                script.setAttribute('type', 'text/javascript');
+                script.textContent = `(() => {
+                    const waitForTheo = () => {
+                        console.debug('waiting for player');
+                        if (!window.theoplayer)
+                            return;
+                        console.debug('player ready');
+                        window.theoplayer.autoplay = true;
+                        clearInterval(int);
+                    }
+                    const int = setInterval(waitForTheo, 100);
+                })();`;
+                document.body.appendChild(script);
             }
-            const int = setInterval(waitForTheo, 100);
-        })();`;
-        document.body.appendChild(script);
-        console.log('theo', window.THEOplayer, window.theoplayer);
+        });
     }
 })();
 
 window.onmessage = function (message) {
-    console.log(message, window.THEOplayer, window.theoplayer, window.theoplayer?.autoplay);
     if (message.origin !== 'https://player.zype.com') {
         return;
     }
@@ -107,6 +110,18 @@ async function loadVideoDetails() {
 }
 
 async function loadNextVideo() {
+    let autoplay = false;
+    try {
+        const autoplayObj = await browser.storage.sync.get('autoplay');
+        autoplay = autoplayObj.autoplay || false;
+    } catch (error) {
+        console.error('Could not load autoplay data', error);
+        return;
+    }
+    if (!autoplay) {
+        return;
+    }
+
     let pl
     try {
         pl = await browser.storage.sync.get('playlist');

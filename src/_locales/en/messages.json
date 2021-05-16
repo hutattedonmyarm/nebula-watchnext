@@ -26,5 +26,9 @@
     "notAVideo": {
       "message": "This does not look like a video!",
       "description": "Error message when trying to add something which is not a video"
+    },
+    "autoplay": {
+      "message": "Autoplay",
+      "description": "Autoplay checkbox label"
     }
   }

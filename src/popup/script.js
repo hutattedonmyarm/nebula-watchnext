@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
     waitUntilMainDocumentIsReady().then(() => {
         document.getElementById(addButtonId).disabled = false;
         document.getElementById(addButtonId).querySelector('span').innerText = browser.i18n.getMessage('addThisVideo');
+        document.querySelector('label[for=cbAutoplay]').innerText = browser.i18n.getMessage('autoplay');
+        handleAutoplaySettings().then(() => {});
     });
     document.getElementById(addButtonId).onclick = function() {
         addCurrentVideo().then(() => {});
@@ -28,6 +30,24 @@ async function waitUntilMainDocumentIsReady() {
     } catch (error) {
         console.warn("Couldn't wait for main document to be ready", error);
     }
+}
+
+async function handleAutoplaySettings() {
+    console.log('handleAutoplaySettings');
+    let opts;
+    try {
+        opts = await browser.storage.sync.get('autoplay');
+    } catch (error) {
+        console.error('Could not load opts options', error);
+        return;
+    }
+    const autoplay = opts.autoplay || false;
+    document.getElementById('cbAutoplay').checked = autoplay;
+    document.getElementById('cbAutoplay').onchange = function() {
+        console.log('saving', document.getElementById('cbAutoplay').checked);
+        browser.storage.sync.set({'autoplay': document.getElementById('cbAutoplay').checked})
+        .then(() => {});
+    };
 }
 
 async function removeVideo(index) {
