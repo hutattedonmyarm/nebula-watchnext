@@ -36,6 +36,8 @@ async function fetchVideoInfo(tabId, frameId, url) {
       var videoInfo = {};
       var anchors = document.querySelectorAll('a[href="${url}"]');
       console.log('anchors', anchors);
+      // If this exists, we're on a creator page
+      var followButton = document.querySelector('#NebulaApp > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > button');
       for (const anchor of anchors) {
           if (!videoInfo.thumbnailUrl) {
               const thumbnail = anchor.querySelector('picture img');
@@ -59,13 +61,33 @@ async function fetchVideoInfo(tabId, frameId, url) {
               }
           }
           if (!videoInfo.title) {
-              const titleContainer = anchor.querySelector('div:nth-of-type(2) > div:nth-of-type(2)');
+            //Title is in a different position on creator pages
+              const titleContainer = followButton
+                ? anchor.querySelector('div:nth-of-type(2) > div:nth-of-type(1)')
+                : anchor.querySelector('div:nth-of-type(2) > div:nth-of-type(2)');
               if (titleContainer) {
                   videoInfo.title = titleContainer.innerText;
               }
           }
+          if (!videoInfo.category && followButton) {
+              const categoryContainer = document.querySelector('#NebulaApp > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > h2:nth-of-type(2)');
+              if (categoryContainer) {
+                  videoInfo.category = categoryContainer.innerText;
+              }
+          }
           if (!videoInfo.channel) {
-              const channelContainer = anchor.querySelector('div:nth-of-type(3) span');
+              let potentialChannelContainer = null;
+              if (!followButton) {
+                potentialChannelContainer = anchor.querySelector('div:nth-of-type(3) span');
+                const durationContainer = anchor.querySelector('div:nth-of-type(1) div:nth-of-type(1)');
+                // Slightly different layout on the home page
+                if (potentialChannelContainer && durationContainer && durationContainer.innerText.split('\\n')[0] === potentialChannelContainer.innerText) {
+                  potentialChannelContainer = anchor.querySelector('div:nth-of-type(2) > div:nth-of-type(3) > span:nth-of-type(1)');
+                }
+              }
+              const channelContainer = followButton
+              ? document.querySelector('#NebulaApp > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > h2:nth-of-type(1)')
+              : potentialChannelContainer;
               if (channelContainer) {
                   videoInfo.channel = channelContainer.innerText;
               }

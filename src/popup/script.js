@@ -33,7 +33,6 @@ async function waitUntilMainDocumentIsReady() {
 }
 
 async function handleAutoplaySettings() {
-    console.log('handleAutoplaySettings');
     let opts;
     try {
         opts = await browser.storage.sync.get('autoplay');
