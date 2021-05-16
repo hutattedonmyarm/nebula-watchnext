@@ -81,6 +81,10 @@ async function displayWatchNext() {
             const href = document.createElement('a');
             href.href = video.url;
             href.appendChild(thumb);
+            href.dataset.index = index;
+            href.onclick = function() {
+                removeVideo(this.dataset.index).then(() => {});
+            }
             thumbCell.appendChild(href);
         }
 
