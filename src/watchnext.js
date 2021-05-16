@@ -1,6 +1,28 @@
 window.videoInfo = null;
 
+(() => {
+    console.log('Loaded', document.location.host, window.frameElement, window.self !== window.top);
+    if (document.location.host === 'player.zype.com') {
+        const script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.textContent = `(() => {
+            const waitForTheo = () => {
+                console.debug('waiting');
+                if (!window.theoplayer)
+                    return;
+                console.debug('ready', window.theoplayer);
+                window.theoplayer.autoplay = true;
+                clearInterval(int);
+            }
+            const int = setInterval(waitForTheo, 100);
+        })();`;
+        document.body.appendChild(script);
+        console.log('theo', window.THEOplayer, window.theoplayer);
+    }
+})();
+
 window.onmessage = function (message) {
+    console.log(message, window.THEOplayer, window.theoplayer, window.theoplayer?.autoplay);
     if (message.origin !== 'https://player.zype.com') {
         return;
     }

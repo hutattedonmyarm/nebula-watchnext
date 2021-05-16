@@ -15,8 +15,11 @@
 
     "content_scripts": [
       {
-        "matches": ["*://*.nebula.app/*"],
-        "js": ["watchnext.js"]
+        "matches": ["*://*.nebula.app/*",
+          "*://*.player.zype.com/embed/*",
+          "*://*.player.zype.com//embed/*"],
+        "js": ["watchnext.js"],
+        "all_frames": true
       }
     ],
     "permissions": [
