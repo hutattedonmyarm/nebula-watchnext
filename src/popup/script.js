@@ -156,6 +156,15 @@ async function addVideo(videoInfo) {
         return;
     }
     const playlist = pl.playlist || [];
+    for (const video of playlist) {
+        if (!video) {
+            return;
+        }
+        if (video.url === videoInfo.url) {
+            console.warn('Video with the same URL already in watchlist, will skip');
+            return;
+        }
+    }
     playlist.push(videoInfo);
     await browser.storage.sync.set({playlist});
     await displayWatchNext();
