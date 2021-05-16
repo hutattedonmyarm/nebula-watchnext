@@ -5,11 +5,12 @@ Right clicking on a video from the featured page, your library, or a creator's p
 
 It is in an early development stage, so while the base functionality works, there are a bunch of rough edges. Mainly:
 
-- Adding a video from a creator's page messes up the title and creator name #1
-- Clicking a video in the Watch Next list doesn't automatically remove it #2
-- Duplicates are not yet filtered from the Watch Next list #3
-- No grace period, once a video ends the next in the list will load and remove it from the list #4
+- ~~Adding a video from a creator's page messes up the title and creator name #1~~
+- ~~Clicking a video in the Watch Next list doesn't automatically remove it #2~~
+- ~~Duplicates are not yet filtered from the Watch Next list #3~~
+- ~~No grace period, once a video ends the next in the list will load and remove it from the list #4~~
 - The icon is pretty unusable #5
+- Fullscreen is not preserved #6
 
 In addition, some notes:
 
